@@ -795,3 +795,71 @@ The test suite validates:
 - [Lambda Function URL Configuration Examples](./USAGE-EXAMPLES.md) - Detailed IAM policy configuration examples
 - [Test Invocations](./TEST-INVOCATIONS.md) - Manual testing instructions
 
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.21.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_iam_role.role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.lambda_additional_inline_policies](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.s3_zip_bucket_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy_attachment.lambda_additional_managed_policies](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.lambda_basic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_lambda_function.function](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function) | resource |
+| [aws_lambda_function_url.function_url](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function_url) | resource |
+| [random_id.entropy](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_additional_inline_policies"></a> [additional\_inline\_policies](#input\_additional\_inline\_policies) | Map of additional inline IAM policies to attach to the Lambda execution role. Key is the policy name, value is the policy document as JSON string | `map(string)` | `{}` | no |
+| <a name="input_additional_managed_policy_arns"></a> [additional\_managed\_policy\_arns](#input\_additional\_managed\_policy\_arns) | List of additional managed IAM policy ARNs to attach to the Lambda execution role | `list(string)` | `[]` | no |
+| <a name="input_additional_tags"></a> [additional\_tags](#input\_additional\_tags) | Additional tags to apply to the Lambda function | `map(string)` | `{}` | no |
+| <a name="input_architectures"></a> [architectures](#input\_architectures) | Instruction set architecture for the Lambda function. Valid values: ['x86\_64'] or ['arm64'] | `list(string)` | <pre>[<br/>  "x86_64"<br/>]</pre> | no |
+| <a name="input_enable_function_url"></a> [enable\_function\_url](#input\_enable\_function\_url) | If true, creates an HTTPS endpoint (Function URL) for the Lambda. Allows HTTP/HTTPS invocation. | `bool` | `false` | no |
+| <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | Environment variables to pass to the Lambda function | `map(string)` | `{}` | no |
+| <a name="input_function_url_auth_type"></a> [function\_url\_auth\_type](#input\_function\_url\_auth\_type) | Authorization type for the Function URL. 'NONE' = public access, 'AWS\_IAM' = requires AWS credentials. | `string` | `"AWS_IAM"` | no |
+| <a name="input_function_url_cors"></a> [function\_url\_cors](#input\_function\_url\_cors) | CORS configuration for the Function URL. Only applies if enable\_function\_url is true. | <pre>object({<br/>    allow_credentials = optional(bool, false)<br/>    allow_origins     = optional(list(string), ["*"])<br/>    allow_methods     = optional(list(string), ["*"])<br/>    allow_headers     = optional(list(string), [])<br/>    expose_headers    = optional(list(string), [])<br/>    max_age           = optional(number, 0)<br/>  })</pre> | `null` | no |
+| <a name="input_handler"></a> [handler](#input\_handler) | The function entrypoint in your code (e.g., 'index.handler' for Node.js) | `string` | n/a | yes |
+| <a name="input_iam_role_arn"></a> [iam\_role\_arn](#input\_iam\_role\_arn) | Optional IAM role ARN to use for the Lambda function. If not provided, a new role will be created | `string` | `null` | no |
+| <a name="input_iam_role_name_prefix"></a> [iam\_role\_name\_prefix](#input\_iam\_role\_name\_prefix) | Prefix for the IAM role name. Only used when a new IAM role is created (iam\_role\_arn not provided) | `string` | `"lambda-role-"` | no |
+| <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | Amount of memory in MB that your Lambda function can use at runtime. Valid value between 128 MB to 10,240 MB | `number` | `128` | no |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Prefix for the Lambda function name | `string` | `"hum-orch-"` | no |
+| <a name="input_runtime"></a> [runtime](#input\_runtime) | The Lambda runtime identifier (e.g., 'python3.12', 'nodejs20.x', 'java21') | `string` | n/a | yes |
+| <a name="input_s3_bucket"></a> [s3\_bucket](#input\_s3\_bucket) | The S3 bucket name where the Lambda deployment package (zip) is stored | `string` | n/a | yes |
+| <a name="input_s3_key"></a> [s3\_key](#input\_s3\_key) | The S3 object key (path) for the Lambda deployment package | `string` | n/a | yes |
+| <a name="input_timeout_in_seconds"></a> [timeout\_in\_seconds](#input\_timeout\_in\_seconds) | The amount of time the Lambda function has to run in seconds | `number` | `300` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_function_arn"></a> [function\_arn](#output\_function\_arn) | The ARN of the Lambda function |
+| <a name="output_function_name"></a> [function\_name](#output\_function\_name) | The name of the Lambda function |
+| <a name="output_function_url"></a> [function\_url](#output\_function\_url) | The HTTPS URL endpoint for the Lambda function (if enable\_function\_url is true) |
+| <a name="output_humanitec_metadata"></a> [humanitec\_metadata](#output\_humanitec\_metadata) | The Humanitec metadata annotations for the Lambda function |
+| <a name="output_invoke_arn"></a> [invoke\_arn](#output\_invoke\_arn) | The ARN to be used for invoking the Lambda function from API Gateway |
+| <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | The ARN of the IAM role used by the Lambda function |
+<!-- END_TF_DOCS -->
