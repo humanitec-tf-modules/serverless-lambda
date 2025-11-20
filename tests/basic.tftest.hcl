@@ -168,19 +168,7 @@ run "test_lambda_with_inline_policies" {
     handler   = "lambda_function.lambda_handler"
 
     additional_inline_policies = {
-      s3_access = jsonencode({
-        Version = "2012-10-17"
-        Statement = [
-          {
-            Effect = "Allow"
-            Action = [
-              "s3:GetObject",
-              "s3:PutObject"
-            ]
-            Resource = "arn:aws:s3:::my-bucket/*"
-          }
-        ]
-      })
+      s3_access = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"s3:GetObject\",\"s3:PutObject\"],\"Resource\":\"arn:aws:s3:::my-bucket/*\"}]}"
     }
   }
 
@@ -235,16 +223,7 @@ run "test_lambda_with_both_policy_types" {
     ]
 
     additional_inline_policies = {
-      sqs_access = jsonencode({
-        Version = "2012-10-17"
-        Statement = [
-          {
-            Effect   = "Allow"
-            Action   = ["sqs:SendMessage"]
-            Resource = "arn:aws:sqs:us-east-1:123456789012:my-queue"
-          }
-        ]
-      })
+      sqs_access = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"sqs:SendMessage\"],\"Resource\":\"arn:aws:sqs:us-east-1:123456789012:my-queue\"}]}"
     }
   }
 
