@@ -7,7 +7,7 @@ on:
 
 jobs:
   ci:
-    uses: humanitec-tf-modules/reusable-workflows/.github/workflows/ci.yaml@main
+    uses: humanitec-tf-modules/reusable-workflows/.github/workflows/ci.yaml@fix-remove-tf-docs-deletion
     secrets: inherit
     with:
       disable-tf-format: false
