@@ -795,7 +795,6 @@ The test suite validates:
 - [Lambda Function URL Configuration Examples](./USAGE-EXAMPLES.md) - Detailed IAM policy configuration examples
 - [Test Invocations](./TEST-INVOCATIONS.md) - Manual testing instructions
 
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
