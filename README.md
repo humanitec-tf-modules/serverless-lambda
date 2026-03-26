@@ -790,6 +790,7 @@ The test suite validates:
 - Custom IAM roles
 - Multiple runtime configurations
 
+
 ## Additional Documentation
 
 - [Lambda Function URL Configuration Examples](./USAGE-EXAMPLES.md) - Detailed IAM policy configuration examples
